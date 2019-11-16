@@ -6,38 +6,57 @@ const SERVER_ADDRESS = "0.0.0.0:5001";
  
 // Load protobuf
 let proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync("models/proto/chat.proto", {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true
-  })
+    protoLoader.loadSync("models/proto/serial.proto", {
+        keepCase: true,
+        longs: String,
+        enums: String,
+        defaults: true,
+        oneofs: true
+    })
 );
  
-let users = [];
- 
-// Receive message from client joining
-function join(call, callback) {
-  users.push(call);
-  notifyChat({ user: "Server", text: "new user joined ..." });
+let devices = []
+let instruments = []
+
+//Device joined as one of the agents involved in the communication process
+function joinDev(call, callback) {
+    devices.push(call);
 }
- 
-// Receive message from client
+
+//Instrument joined as one of the agents involved in the communication process
+function joinInst(call, callback) {
+    instruments.push(call);
+}
+
+//Function used as a broker of sending message between device and instument
 function send(call, callback) {
-  notifyChat(call.request);
+    if (call.request.command != ""){
+        notifyInstrument({ command: call.request.command});
+    } else {
+        notifyDevice({ response: call.request.response});
+    }
 }
  
-// Send message to all connected clients
-function notifyChat(message) {
-  users.forEach(user => {
-    user.write(message);
-  });
+// Function used by device in order to send command to instrument
+function notifyInstrument(message) {
+    instruments.forEach(instrument => {
+        instrument.write(message);
+    });
 }
+
+// Function used by instrument in order to send response to device
+function notifyDevice(message) {
+    devices.forEach(device => {
+        device.write(message);
+    });
+}
+
  
-// Define server with the methods and start it
-server.addService(proto.example.Chat.service, { join: join, send: send });
+// Define server and start
+server.addService(proto.serial.Request.service, { joinInst: joinInst, joinDev: joinDev, send: send });
  
 server.bind(SERVER_ADDRESS, grpc.ServerCredentials.createInsecure());
  
 server.start();
+
+console.log("Server starts listening ", SERVER_ADDRESS)

@@ -1,0 +1,17 @@
+syntax = "proto3"; //Specify proto3 version.
+ 
+package serial; //Optional: unique package name.
+ 
+service Request { //Service class to be used by the clients
+    rpc joinDev(stream SerialResponse) returns (stream SerialResponse){}
+    rpc joinInst(stream SerialResponse) returns (stream SerialResponse){}
+    rpc send(SerialResponse) returns (Empty){}
+}
+
+message SerialResponse {
+    string command = 1;
+    string response = 2;
+    string type = 3;
+}
+
+message Empty {}
