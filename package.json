@@ -1,0 +1,16 @@
+{
+  "name": "serial-comm",
+  "version": "1.0.0",
+  "description": "async serial communication",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node server.js"
+  },
+  "author": "enrico.bison@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.3",
+    "grpc": "^1.24.2"
+  }
+}

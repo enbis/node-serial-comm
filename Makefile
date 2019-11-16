@@ -1,0 +1,1 @@
+setup: $(shell npm run server)
