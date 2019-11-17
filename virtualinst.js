@@ -67,3 +67,5 @@ function onResponse(message) {
 
 //Start serial communication as stream of charts
 startSerial();
+
+console.log("Virtual instrument online.")

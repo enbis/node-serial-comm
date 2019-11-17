@@ -4,7 +4,9 @@
   "description": "async serial communication",
   "scripts": {
     "test": "./node_modules/.bin/mocha test/test.js --exit",
-    "server": "node server.js"
+    "server": "node server.js",
+    "device": "node devicedriver.js",
+    "instrument": "node virtualinst.js"
   },
   "author": "enrico.bison@gmail.com",
   "license": "ISC",
