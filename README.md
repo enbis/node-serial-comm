@@ -11,8 +11,9 @@ Async communication between instrument and device. A device driver performing a 
 * **grpc server:** it opens two stream, one with the device and one with the instrumet. It receives the request from the device and forward it to the instrument, then awaits the response and send back to the remote device.  
 * **protocol buffer:** is the method used for serializing data.
 * **device driver:** it requires to starts the communication with the server, sends on the request through CLI command and waits for the response. It is able to decode a bunch of possible response that the sever forwards.
+* **virtual instrument:** it requires to starts the communication with the server, and waits for the requests coming from the remote device. The logic within it simulates its state and introduces a random delay on the response, ranging from 1 to 5 seconds.
 
-_CLI command_
+_device CLI command:_
 ```javascript
 rl.on("line", function(text) {
     if (text == "S") {
@@ -23,11 +24,9 @@ rl.on("line", function(text) {
         console.log(`Error, the only command accepted is S`);
     }
 });
-```
+``` 
 
-* **virtual instrument:** it requires to starts the communication with the server, and waits for the requests coming from the remote device. The logic within it simulates its state and introduces a random delay on the response, ranging from 1 to 5 seconds. 
-
-_simulated state:_
+_instrument simulated state:_
 ```javascript
 function fakeResponse(){
     random = getRandomInt(0, 3);
@@ -48,7 +47,7 @@ function fakeResponse(){
 }
 ```
 
-_articifial delay:_ 
+_instrument articifial delay:_ 
 ```javascript
 async function sendDelayedResponse(resp) {
     for (const c of resp) {
@@ -60,10 +59,20 @@ async function sendDelayedResponse(resp) {
 
 ## Assumptions and instructions
 
-1. Run the server and the two processes in the following order, so as to allow to the device and the instrument to communicate with the server. 
+1. `npm install`
+2. Run the server and the two processes in the following order, so as to allow to the device and the instrument to communicate with the server. 
 * `npm run server`
 * `npm run device`
 * `npm run intrument`
 
-2. The device CLI is able to send only one type of command: `S`, any other attempt returns an error to the driver console.
-3. Only one device and one instrument process are permitted for each instance of server.
+3. The device CLI is able to send only one type of command: `S`, any other attempt returns an error to the driver console.
+4. Only one device and one instrument process are permitted for each instance of server.
+
+## Next implementation
+
+1. Queue implementation on server side in order to manage multi devices requests. 
+2. Makefile to make the launch of the three processes easier.
+
+## Output
+
+<img align="center" width="465" height="786" src="https://github.com/enbis/node-serial-comm/blob/master/imgs/output.png">
