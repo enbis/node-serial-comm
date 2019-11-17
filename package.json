@@ -2,15 +2,15 @@
   "name": "serial-comm",
   "version": "1.0.0",
   "description": "async serial communication",
-  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha test/test.js --exit",
     "server": "node server.js"
   },
   "author": "enrico.bison@gmail.com",
   "license": "ISC",
   "dependencies": {
     "@grpc/proto-loader": "^0.5.3",
-    "grpc": "^1.24.2"
+    "grpc": "^1.24.2",
+    "mocha": "^6.2.2"
   }
 }

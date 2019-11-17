@@ -42,7 +42,7 @@ function startSerial() {
     });
 }
 
-function responseReader(){
+function responseReader (){
     if (fullResp.endsWith('g')) {
         var regex = /\d+/
         var matches = regex.exec(fullResp);

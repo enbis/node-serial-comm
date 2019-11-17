@@ -21,7 +21,11 @@ let client = new proto.serial.Request(
 );
 
 function startSerial() {
-    let channel = client.joinInst({ });
+    let channel = client.joinInst({ }, res => {
+        if (res != ""){
+            console.log("Error ", res)
+        }
+    });
     channel.on("data", onResponse);
 }
 
@@ -49,7 +53,7 @@ function fakeResponse(){
 
 async function sendDelayedResponse(resp) {
     for (const c of resp) {
-        await new Promise(resolve => setTimeout(resolve, getRandomInt(1000, 2000)))
+        await new Promise(resolve => setTimeout(resolve, getRandomInt(1000, 5000)))
         client.send({response: c}, res => {})
     }
 }
@@ -58,6 +62,7 @@ function onResponse(message) {
     console.log(`Received command ${message.command}`);
     resp = fakeResponse();
     sendDelayedResponse(resp) 
+
 }
 
 //Start serial communication as stream of charts
