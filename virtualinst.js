@@ -47,11 +47,17 @@ function fakeResponse(){
     }
 }
 
-//Receive message from device and create the response to send back
+async function sendDelayedResponse(resp) {
+    for (const c of resp) {
+        await new Promise(resolve => setTimeout(resolve, getRandomInt(1000, 2000)))
+        client.send({response: c}, res => {})
+    }
+}
+
 function onResponse(message) {
     console.log(`Received command ${message.command}`);
     resp = fakeResponse();
-    [...resp].forEach ( c => client.send({ response: c }, res => {}));
+    sendDelayedResponse(resp) 
 }
 
 //Start serial communication as stream of charts

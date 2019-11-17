@@ -2,7 +2,7 @@
   "name": "serial-comm",
   "version": "1.0.0",
   "description": "async serial communication",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node server.js"
