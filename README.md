@@ -4,7 +4,7 @@ Async communication between instrument and device. A device driver performing a 
 
 ## Architecture
 
-<img align="center" width="651" height="241" src="https://github.com/enbis/node-serial-com/blob/master/imgs/serial_comm.png">
+<img align="center" width="651" height="241" src="https://github.com/enbis/node-serial-comm/blob/master/imgs/serial_comm.png">
 
 ### Components
 
